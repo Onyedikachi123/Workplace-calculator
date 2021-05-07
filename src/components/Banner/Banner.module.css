@@ -1,0 +1,11 @@
+.Banner{
+    text-align: center;
+}
+
+.Banner > h2{
+    font-size: 4.5em ;
+
+}
+.Banner > p{
+    font-size: 2em ;
+}
