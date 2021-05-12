@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-// import { FETCH_COMMENTS } from "../../redux/actions";
+import React from 'react';
 
 const Pagination = props => {
 

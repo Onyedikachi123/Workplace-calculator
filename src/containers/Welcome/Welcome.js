@@ -10,8 +10,8 @@ import NavBar from '../../components/NavBar/NavBar';
 const Welcome = props => {
     return (
         <React.Fragment>
-            <NavBar />
             <Router>
+            <NavBar />
                 <Switch>
                     <Route path='/' exact render={() => <HomePage {...props} />} />
                     <Route path='/search' render={() => <Searching {...props} />} />

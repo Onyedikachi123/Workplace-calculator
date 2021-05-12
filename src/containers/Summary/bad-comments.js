@@ -1,28 +1,117 @@
-import React from "react";
-import Emoji from '../../components/Emoji/Emoji';
-import { useSelector } from "react-redux";
+import React, {useState} from "react";
+// import Emoji from '../../components/Emoji/Emoji';
+import { useDispatch, useSelector } from "react-redux";
+import Emoji from "../../components/Emoji/Emoji";
+import SummaryClass from './Summary.module.css'
+import Pagination from "../../components/Pagination/Pagination";
+import { axiosInstance } from "../../axios-instance";
+import { COMMENT } from "../../redux/actions";
+
+const GET_CONTENT = async (newPage, companyName) => {
+    try {
+
+        const response = await axiosInstance({
+            params: {
+                pageId: newPage
+            },
+            method: "POST",
+            data: {
+                company_name: companyName
+            }
+        })
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 const BadComments = props => {
-    const __comments = useSelector(state => state.comments);
+    let { pageId, companyName, badComments } = useSelector(state => state);
+    const [PrevIsDisabled, setPrevDisability] = useState(true);
+    const [comments, setComments] = useState(badComments);
+    const [NextIsDisabled] = useState(false);
+    const dispatch = useDispatch();
 
-    const badComments = __comments.slice(0, 4).map(comment => (<li className="p-2" key={comment.title}> <span className="fa fa-user-circle text-dark mr-2"></span> <span className="border-bottom border-info p-1  lead"> {comment.title}</span></li>));
+    const handlePrevBtn = async () => {
+        props.setSearching(true);
+        if (pageId === 1) {
+            return;
+        }
+        let newPage = --pageId;
+        if (newPage === 1) {
+            setPrevDisability(true);
+        }
+        const response = await GET_CONTENT(newPage, companyName);
+        if (response) {
+            props.setSearching(false);
+            setComments(response.comments)
+            dispatch(COMMENT(response));
+        }
+    }
 
-    console.log(__comments);
+    const handleNextBtn = async () => {
+        props.setSearching(true);
+
+        let newPage = ++pageId;
+        setPrevDisability(false)
+        const response = await GET_CONTENT(newPage, companyName);
+
+        if (response) {
+            props.setSearching(false);
+            setComments(response.comments)
+            dispatch(COMMENT(response));
+        }
+
+    }
+    let __badComments = (<div className=" text-center">
+    <p 
+        className="h3 text-center text-muted my-5 p-5"> 
+        Ooops looks like nothing has been said so far..
+        <Emoji emojiClass="mr-2 " symbol="🧐" label="shcoked" />. Please try again..</p>
+        <a href='/' className="btn btn-info">try again..</a>
+        </div>)
+
+    if (comments.length > 0){
+        
+        __badComments = comments
+        .map(comment => (
+            <li className="p-2"
+                key={comment.title}>
+                <div className="d-flex">
+                    <div>
+                    <span className="fa fa-user-circle fa-2x text-dark mr-2"></span>
+                    </div>
+                    <div>
+                        <small className="text-muted">{comment.employee}</small>
+                    <p className="border-bottom border-info p-1 ">   
+                    {comment.comment}</p>
+                    </div>
+                    
+                </div>
+
+            </li>));
+    }
+
+
 
     return (
         <React.Fragment>
-            <div className="text-info mx-auto">
-                <div className="my-5">
-                    <Emoji emojiClass="mr-2 h3" symbol="🤨" label="not-impressed" /><span>37%</span>
-                </div>
+            <div className={"text-muted "+SummaryClass.BadComments}>
+            <h3 className="h3 text-info text-center my-1"> What employees <Emoji emojiClass="mr-2 " symbol="😠" label="not-impressed" />. think you should work on at <span className="text-danger font-weight-bold text-capitalize">{companyName}</span></h3>
 
-                <div className="comments mt-5 text-center">
+                <div className="comments mt-3">
                     <ul className="list-unstyled">
-                        {badComments}
+                        {__badComments}
                     </ul>
-                    {badComments.length < 5 ? null : <small className="text-dark">See more...</small>}
+                   
                 </div>
             </div>
+            {props.isSearching || comments.length < 5 ? null : (<Pagination
+                            PrevIsDisabled={PrevIsDisabled}
+                            NextIsDisabled={NextIsDisabled}
+                            handleNextBtn={handleNextBtn}
+                            handlePrevBtn={handlePrevBtn}
+                        />)}
         </React.Fragment>
     )
 }

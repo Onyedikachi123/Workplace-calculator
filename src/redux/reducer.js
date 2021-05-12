@@ -3,7 +3,8 @@ import {SET_COMPANY_NAME, SET_ERROR_MESSAGE, HAS_ERROR_STATUS, SET_COMMENTS} fro
 const initialState = {
     companyName: '',
     errorMessage: '',
-    comments:[],
+    goodComments:[],
+    badComments:[],
     pageId:1,
     hasError:false
 }
@@ -16,8 +17,10 @@ const reducer = (state = initialState, action) => {
         case SET_COMPANY_NAME:
             return { ...state, companyName: action.payload }
         case SET_COMMENTS:
-            debugger
-            return { ...state, comments: action.payload.comments, pageId: action.payload.pageId }
+            return { ...state, 
+                goodComments: action.payload.comments.goodComments, 
+                badComments: action.payload.comments.badComments,
+                pageId: action.payload.pageId }
         case HAS_ERROR_STATUS:
             return { ...state, ...action.payload }
         default:

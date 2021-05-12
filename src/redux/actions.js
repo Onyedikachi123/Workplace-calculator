@@ -14,10 +14,10 @@ export const COMPANY_NAME = (companyName) => {
         payload: companyName
     }
 }
-export const COMMENT = (comments) => {
+export const COMMENT = (response) => {
     return{
         type: SET_COMMENTS,
-        payload: comments
+        payload: response
     }
 }
 
