@@ -1,45 +1,24 @@
-import React, {useState, useReducer} from 'react';
-import WelcomePageClass from './Welcome.module.css';
-import Banner from '../../components/Banner/Banner';
-import NavBar from '../../components/NavBar/NavBar';
-import Search from '../../components/Search/Search';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import HomePage from './HomePage';
+import Searching from '../../components/SearchingPage/Searching';
 import Footer from '../../components/Footer/Footer';
+import Summary from '../Summary/Summary';
+import NavBar from '../../components/NavBar/NavBar';
 
-const initState = {
-    search_status: false,
-    hasResult: false
-}
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'SEARCH':
-            let new_search_status = action.payload; 
-            return{...state, search_status: new_search_status}    
-        default:
-            break;
-    }
-    return state;
-}
 
 const Welcome = props => {
-
-    const [state, dispatch] = useReducer(reducer, initState);
-
     return (
         <React.Fragment>
-            <NavBar link={"/"} location={"About"} />
-            <main className={WelcomePageClass.Welcome}>
-                <div className="contain h-100 d-flex flex-column justify-content-center align-items-center">
-                    <Banner />
-                    <div className="text-center">
-                        <img src=".." alt="logo" />
-                    </div>
-                    <Search  />
-{/* clickedSearchBtn={dispatch({type: 'SEARCH', payload: true})} */}
-                </div>
-            </main>
+            <NavBar />
+            <Router>
+                <Switch>
+                    <Route path='/' exact render={() => <HomePage {...props} />} />
+                    <Route path='/search' render={() => <Searching {...props} />} />
+                    <Route path="/result" component={Summary} />
+                </Switch>
+            </Router>
             <Footer />
-
         </React.Fragment>
     )
 }
