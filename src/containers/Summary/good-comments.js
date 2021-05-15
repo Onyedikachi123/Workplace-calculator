@@ -31,6 +31,10 @@ const GoodComments = props => {
     const [NextIsDisabled] = useState(false);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setComments(goodComments);
+    }, [goodComments])
+
     const handlePrevBtn = async () => {
         props.setSearching(true);
         if (goodPageId === 1) {
