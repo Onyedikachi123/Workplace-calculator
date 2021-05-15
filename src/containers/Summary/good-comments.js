@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-// import Emoji from '../../components/Emoji/Emoji';
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Emoji from "../../components/Emoji/Emoji";
 import SummaryClass from './Summary.module.css'
@@ -12,7 +11,7 @@ const GET_CONTENT = async (newPage, companyName) => {
 
         const response = await axiosInstance({
             params: {
-                pageId: newPage
+                goodPageId: newPage
             },
             method: "POST",
             data: {
@@ -26,7 +25,7 @@ const GET_CONTENT = async (newPage, companyName) => {
 }
 
 const GoodComments = props => {
-    let { pageId, companyName, goodComments } = useSelector(state => state);
+    let { goodPageId, companyName, goodComments, goodPercent } = useSelector(state => state);
     const [PrevIsDisabled, setPrevDisability] = useState(true);
     const [comments, setComments] = useState(goodComments);
     const [NextIsDisabled] = useState(false);
@@ -34,10 +33,10 @@ const GoodComments = props => {
 
     const handlePrevBtn = async () => {
         props.setSearching(true);
-        if (pageId === 1) {
+        if (goodPageId === 1) {
             return;
         }
-        let newPage = --pageId;
+        let newPage = goodPageId - 1 ;
         if (newPage === 1) {
             setPrevDisability(true);
         }
@@ -52,7 +51,7 @@ const GoodComments = props => {
     const handleNextBtn = async () => {
         props.setSearching(true);
 
-        let newPage = ++pageId;
+        let newPage = goodPageId + 1;
         setPrevDisability(false)
         const response = await GET_CONTENT(newPage, companyName);
 
@@ -64,55 +63,56 @@ const GoodComments = props => {
 
     }
     let __goodComments = (<div className=" text-center">
-    <p 
-        className="h3 text-center text-muted my-5 p-5"> 
-        Ooops looks like nothing has been said so far..
+        <p
+            className="h3 text-center text-muted my-5 p-5">
+            Ooops looks like nothing has been said so far..
         <Emoji emojiClass="mr-2 " symbol="🧐" label="shcoked" />. Please try again..</p>
-        <a href='/' className="btn btn-info">try again..</a>
-        </div>)
+        <a href='/' className="btn btn-semi-info">try again..</a>
+    </div>)
 
-    if (comments.length > 0){
-        
+    if (comments.length > 0) {
+
         __goodComments = comments
-        .map(comment => (
-            <li className="p-2"
-                key={comment.title}>
-                <div className="d-flex">
-                    <div>
-                    <span className="fa fa-user-circle fa-2x text-dark mr-2"></span>
-                    </div>
-                    <div>
-                        <small className="text-muted">{comment.employee}</small>
-                    <p className="border-bottom border-info p-1 ">   
-                    {comment.comment}</p>
-                    </div>
-                    
-                </div>
+            .map(comment => (
+                <li className="p-2"
+                    key={comment.title}>
+                    <div className="d-flex">
+                        <div>
+                            <span className="fa fa-user-circle fa-2x text-dark mr-2"></span>
+                        </div>
+                        <div>
+                            <small className="text-muted">{comment.employee}</small>
+                            <p className="border-bottom border-semi-info p-1 ">
+                                {comment.comment}</p>
+                        </div>
 
-            </li>));
+                    </div>
+
+                </li>));
     }
 
 
 
     return (
         <React.Fragment>
-            <div className={"text-muted "+SummaryClass.GoodComments}>
-            <h3 className="h3 text-info text-center my-1"> What employees <Emoji emojiClass="mr-2 " symbol="❤️" label="shcoked" />. about <span className="text-danger font-weight-bold text-capitalize">{companyName}</span></h3>
+            <div className={"text-muted " + SummaryClass.Comments}>
+                <h3 className="h3 text-semi-info text-center my-1"> {goodPercent}% employees <Emoji emojiClass="mr-2 " symbol="❤️" label="shcoked" /> <span className="text-danger font-weight-bold text-uppercase">{companyName}</span></h3>
+                <p className="text-dark ml-5 p-3 bg-warning h4 w-25">Total Reviews: {props.totalReviews}</p>
 
                 <div className="comments mt-3">
 
                     <ul className="list-unstyled">
                         {__goodComments}
                     </ul>
-                   
+
                 </div>
             </div>
             {props.isSearching || comments.length < 5 ? null : (<Pagination
-                            PrevIsDisabled={PrevIsDisabled}
-                            NextIsDisabled={NextIsDisabled}
-                            handleNextBtn={handleNextBtn}
-                            handlePrevBtn={handlePrevBtn}
-                        />)}
+                PrevIsDisabled={PrevIsDisabled}
+                NextIsDisabled={NextIsDisabled}
+                handleNextBtn={handleNextBtn}
+                handlePrevBtn={handlePrevBtn}
+            />)}
         </React.Fragment>
     )
 }

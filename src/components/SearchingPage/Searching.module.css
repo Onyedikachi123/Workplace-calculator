@@ -1,6 +1,6 @@
 .LoadInfo{
-    transition: all .4s;
-    animation: fadeIn .4s ease;
+    transition: all .3s;
+    animation: fadeIn .3s ease-in;
 }
 .Emoji{
     transition: all .4s;

@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useSelector } from "react-redux";
 import GoodComments from './good-comments';
 import BadComments from './bad-comments';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import SumNav from "./SummaryNav";
 import Loading from "../../components/Loading/Loading";
-import Emoji from '../../components/Emoji/Emoji';
+import { useSelector } from 'react-redux';
 
 
 
-const Summary = props => {
-    let { companyName } = useSelector(state => state);
+const Summary = () => {
     const [isSearching, setSearching] = useState(false);
+    const {totalReviews } = useSelector(state => state);
     return (
         <React.Fragment>
             <Router>
@@ -21,8 +20,8 @@ const Summary = props => {
                     <div className="mx-auto mt-2 w-75">
                         {isSearching ? (<div className="text-center my-5"> <Loading /> </div>) : (
                             <Switch>
-                                <Route path="/result" exact render={() => <GoodComments isSearching={isSearching} setSearching={(val)=> setSearching(val)} />} />
-                                <Route path="/result/bd-comments"  render={() => <BadComments isSearching={isSearching} setSearching={(val)=> setSearching(val)}
+                                <Route path="/result" exact render={() => <GoodComments totalReviews={totalReviews} isSearching={isSearching} setSearching={(val)=> setSearching(val)} />} />
+                                <Route path="/result/bd-comments"  render={() => <BadComments totalReviews={totalReviews} isSearching={isSearching} setSearching={(val)=> setSearching(val)}
                     />} />
                             </Switch>
                         

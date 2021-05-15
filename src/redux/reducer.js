@@ -5,7 +5,10 @@ const initialState = {
     errorMessage: '',
     goodComments:[],
     badComments:[],
-    pageId:1,
+    goodPageId: 1,
+    badPageId: 1,
+    goodPercent:'',
+    badPercent: '',
     hasError:false
 }
 
@@ -20,7 +23,13 @@ const reducer = (state = initialState, action) => {
             return { ...state, 
                 goodComments: action.payload.comments.goodComments, 
                 badComments: action.payload.comments.badComments,
-                pageId: action.payload.pageId }
+                totalReviews: action.payload.totalReviews ,
+                goodPageId: action.payload.goodPageId,
+                goodPercent: action.payload.goodPercent,
+                badPageId: action.payload.badPageId,
+                badPercent: action.payload.badPercent,
+                
+            }
         case HAS_ERROR_STATUS:
             return { ...state, ...action.payload }
         default:

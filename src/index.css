@@ -18,8 +18,15 @@ body{
 }
 
 /* ends */
+.text-semi-info{
+  color:#0a86b3;
+}
 
+.btn-semi-info{
+  background-color:#2596be;
+  color: white;
 
+}
 
 /* loading spinner */
 

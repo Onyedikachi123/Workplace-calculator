@@ -40,7 +40,7 @@ const Search = props => {
                             <input onChange={handleChange} type="text" className={"form-control " + SearchClass.SearchInput} placeholder="Search Your Company Name..." />
                             <p className="text-danger">{errorMessage}</p>
                         </div>
-                        <button className="btn btn-info my-3 rounded" type="submit" value={inputState}>Search</button>
+                        <button className="btn btn-semi-info my-3 rounded" type="submit" value={inputState}>Search</button>
                     </form>
                 </div>
             </div>
