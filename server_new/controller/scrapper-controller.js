@@ -34,6 +34,7 @@ exports.getComments = async (req, res, next) => {
             const START_INDEX_BD_COMMENTS = (NUM_OF_COMMENTS_PER_PAGE * +bad_pageId) - NUM_OF_COMMENTS_PER_PAGE;
  
             let {reviews, numberReviews} = await pageScraper.scrapper.indeed_scrapper(browser, company_name);
+            
             if(numberReviews < 20 || !numberReviews){
                 let response = await pageScraper.scrapper.career_scrapper(browser, company_name);
                 reviews.concat(response.reviews);
