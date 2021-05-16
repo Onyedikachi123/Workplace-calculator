@@ -26,9 +26,7 @@ const GET_CONTENT = async (newPage, companyName) => {
 
 const GoodComments = props => {
     let { goodPageId, companyName, goodComments, goodPercent } = useSelector(state => state);
-    const [PrevIsDisabled, setPrevDisability] = useState(true);
     const [comments, setComments] = useState(goodComments);
-    const [NextIsDisabled] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -41,9 +39,7 @@ const GoodComments = props => {
             return;
         }
         let newPage = goodPageId - 1 ;
-        if (newPage === 1) {
-            setPrevDisability(true);
-        }
+
         const response = await GET_CONTENT(newPage, companyName);
         if (response) {
             props.setSearching(false);
@@ -56,7 +52,6 @@ const GoodComments = props => {
         props.setSearching(true);
 
         let newPage = goodPageId + 1;
-        setPrevDisability(false)
         const response = await GET_CONTENT(newPage, companyName);
 
         if (response) {
@@ -112,8 +107,7 @@ const GoodComments = props => {
                 </div>
             </div>
             {props.isSearching || comments.length < 5 ? null : (<Pagination
-                PrevIsDisabled={PrevIsDisabled}
-                NextIsDisabled={NextIsDisabled}
+                pageId={goodPageId}
                 handleNextBtn={handleNextBtn}
                 handlePrevBtn={handlePrevBtn}
             />)}
