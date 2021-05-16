@@ -80,7 +80,7 @@ const BadComments = props => {
         __badComments = comments
             .map(comment => (
                 <li className="p-2"
-                    key={comment.title}>
+                    key={comment.id}>
                     <div className="d-flex">
                         <div>
                             <span className="fa fa-user-circle fa-2x text-dark mr-2"></span>
@@ -102,7 +102,7 @@ const BadComments = props => {
         <React.Fragment>
             <div className={"text-muted " + SummaryClass.Comments}>
                 <h3 className="h3 text-semi-info text-center my-1"> {badPercent}% <Emoji emojiClass="mr-2 " symbol="😠" label="not-impressed" /> think you can do better <span className="text-danger font-weight-bold text-uppercase">{companyName}</span></h3>
-                <p className="text-dark ml-5 p-3 bg-warning h4 w-25">Total Reviews: {props.totalReviews}</p>
+                <p className={"text-dark ml-5 p-3 bg-warning h4 "+SummaryClass.totalReviews}>Total Reviews: {props.totalReviews}</p>
 
                 <div className="comments mt-3">
                     <ul className="list-unstyled">

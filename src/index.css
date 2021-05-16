@@ -12,6 +12,23 @@ code {
     monospace;
 }
 
+/* navbar image */
+
+.nav-image{
+  width: 50%;
+}
+
+@media (max-width: 500px) {
+  .nav-image{
+    width: 20%;
+    display: inline-flex !important;
+  }
+}
+
+/* navbar image end */
+
+
+
 /* screen overflow */
 body{
   overflow-x: hidden;
