@@ -66,7 +66,7 @@ const BadComments = props => {
         <p
             className="h3 text-center text-muted my-5 p-5">
             Ooops looks like nothing has been said so far..
-        <Emoji emojiClass="mr-2 " symbol="🧐" label="shcoked" />. Please try again..</p>
+        <Emoji emojiClass="mr-2 " symbol="🧐" label="shocked" />. Please try again..</p>
         <a href='/' className="btn btn-semi-info">try again..</a>
     </div>)
 
